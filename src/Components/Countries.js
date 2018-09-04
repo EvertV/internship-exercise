@@ -15,7 +15,7 @@ class Countries extends Component {
     return (
       <div className="Countries">
       <h1>All Countries</h1>
-        <table class="table">
+        <table className="table table-hover">
           <thead>
             <tr>
               <th>Name</th>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
 import Countries from './Components/Countries';
+import ModalTest from './Components/ModalTest';
 
 class App extends Component {
   constructor() {
@@ -33,7 +34,8 @@ class App extends Component {
   render() {
     return (
       <div className="container">
-          <Countries countries={this.state.countries}/>
+        <ModalTest />
+        <Countries countries={this.state.countries}/>
       </div>
     );
   }
