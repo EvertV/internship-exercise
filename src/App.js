@@ -1,18 +1,39 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import $ from 'jquery';
+import Countries from './Components/Countries';
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      countries: []
+    }
+  }
+
+  getCountries() {
+    $.ajax({
+      url: 'https://restcountries.eu/rest/v2/all',
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        this.setState({countries:data}, function(){
+          console.log(this.state);
+        });
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.log(err);
+      }
+    });
+  }
+
+  componentWillMount() {
+    this.getCountries();
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div className="container">
+          <Countries countries={this.state.countries}/>
       </div>
     );
   }
