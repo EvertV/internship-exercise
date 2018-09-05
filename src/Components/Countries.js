@@ -59,7 +59,7 @@ class Countries extends Component {
 
     return (
       <div className="Countries">
-        <h1>All Countries</h1>
+        <h1>{this.props.title}</h1>
           <table className="table table-hover">
             <thead>
               <tr>

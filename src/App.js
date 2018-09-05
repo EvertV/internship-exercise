@@ -6,7 +6,8 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      countries: []
+      countries: [],
+      countriesEU: []
     }
   }
 
@@ -16,24 +17,36 @@ class App extends Component {
       dataType: 'json',
       cache: false,
       success: function(data) {
-        this.setState({countries:data}, function(){
-          console.log(this.state);
-        });
+        this.setState({countries:data});
       }.bind(this),
       error: function(xhr, status, err) {
         console.log(err);
       }
     });
   }
-
+  getCountriesEU() {
+    $.ajax({
+      url: 'https://restcountries.eu/rest/v2/regionalbloc/eu',
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        this.setState({countriesEU:data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.log(err);
+      }
+    });
+  }
   componentWillMount() {
     this.getCountries();
+    this.getCountriesEU();
   }
 
   render() {
     return (
       <div className="container">
-        <Countries countries={this.state.countries}/>
+        <Countries title="All Countries" countries={this.state.countries}/>
+        <Countries title="EU Countries" countries={this.state.countriesEU}/>
       </div>
     );
   }
