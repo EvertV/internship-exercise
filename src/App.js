@@ -9,6 +9,7 @@ class App extends Component {
     this.state = {
       countries: [],
       countriesEU: [],
+      countriesName: [],
       page: ''
     }
   }
@@ -42,11 +43,41 @@ class App extends Component {
   handleNavClick(selection) {
     let page;
     if(selection === "eu") {
-      page = <Countries title="EU Countries" countries={this.state.countriesEU} />;
+      page = <Countries title="EU countries" countries={this.state.countriesEU} />;
     } else {
-      page = <Countries title="All Countries" countries={this.state.countries} />;
+      page = this.showAllCountries();
     }
     this.setState({page:page});
+  }
+  handleNavSearch(keyword) {
+    if(!(keyword === null || keyword === '')) {
+      // $.ajax({
+      //   url: 'https://restcountries.eu/rest/v2/name/' + keyword,
+      //   dataType: 'json',
+      //   cache: false,
+      //   success: function(data) {
+      //     this.setState({countriesName:data});
+      //   }.bind(this),
+      //   error: function(xhr, status, err) {
+      //     // console.log(err);
+      //     this.setState({page:"Couldn't find \"" + keyword + "\""});
+      //   }.bind(this)
+      // });
+
+      // Use data that's already in memory to show subset of array --> faster than API call
+      keyword = keyword.toLowerCase();
+      let allCountries = this.state.countries;
+      let countriesName = allCountries.filter(country => country.name.toLowerCase().includes(keyword));
+      let page = <Countries title="Search..." countries={countriesName} />;
+      this.setState({page:page});
+      this.setState({countriesName:countriesName});
+    } else {
+      // show default page if keyword is empty
+      this.setState({page:this.showAllCountries()});
+    }
+  }
+  showAllCountries(){
+    return <Countries title="All countries" countries={this.state.countries} />;
   }
 
   componentWillMount() {
@@ -57,11 +88,11 @@ class App extends Component {
   render() {
     let page = this.state.page;
     if(!page) {
-      page = <Countries title="All Countries" countries={this.state.countries} />;
+      page = this.showAllCountries();
     }
     return (
       <div className="container">
-        <Navigation onNavClick={this.handleNavClick.bind(this)} />
+        <Navigation onNavClick={this.handleNavClick.bind(this)} onNavSearch={this.handleNavSearch.bind(this)}/>
         {page}
       </div>
     );

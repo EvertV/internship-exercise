@@ -5,14 +5,17 @@ class Navigation extends Component {
   constructor() {
     super();
     this.state = {
-        modalOpened: false
+        modalOpened: false,
+        searchValue: ''
     };
   }
   handleClick(selection) {
-    this.props.onNavClick(selection);   
+    this.props.onNavClick(selection);
   }
-  handleChange(event) {
-    console.log(event);
+  handleChange(e) {
+    let searchValue = e.target.value;
+    this.setState({searchValue:searchValue})
+    this.props.onNavSearch(searchValue);
   }
   render() {
     return (
@@ -32,9 +35,9 @@ class Navigation extends Component {
           <NavItem>
             <FormControl
               type="text"
-              value={this.state.value}
+              value={this.state.searchValue}
               placeholder="Search country"
-              onChange={this.handleChange}
+              onChange={this.handleChange.bind(this)}
             />
           </NavItem >
         </Nav>
