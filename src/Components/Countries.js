@@ -47,7 +47,6 @@ class Countries extends Component {
         <CountryItem key={index} country={country} />
       );
     });
-    
     return (
       <div className="Countries">
         <h1>{this.props.title}</h1>
@@ -75,7 +74,7 @@ class Countries extends Component {
               allCountries={allCountries}
               countriesPerPage={countriesPerPage}
               currentPage={currentPage}
-              onNavSearch={this.handlePageNumberClick} />
+              onClick={this.handlePageNumberClick} />
           </Pager>
       </div>
     );
