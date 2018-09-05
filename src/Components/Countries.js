@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CountryItem from './CountryItem';
-import CountriesPageNumbers from './CountriesPageNumbers';
+import CountriesPager from './CountriesPager';
 import { Pager} from 'react-bootstrap';
 
 class Countries extends Component {
@@ -8,7 +8,8 @@ class Countries extends Component {
     super();
     this.state = {
       currentPage: 1,
-      countriesPerPage: 15
+      countriesPerPage: 15,
+      lastPageNumber: 1
     }
     this.handlePageNumberClick = this.handlePageNumberClick.bind(this);
     this.handlePreviousPage = this.handlePreviousPage.bind(this);
@@ -21,22 +22,29 @@ class Countries extends Component {
     });
   }
   /* Handlers for pagination */
-  handlePreviousPage() {
-    var previousPageNumber = this.state.currentPage - 1;
+  handlePreviousPage(number) {
     this.setState({
-      currentPage: previousPageNumber
+      currentPage: number
     });
   }
-  handleNextPage() {
-    var nextPageNumber = this.state.currentPage + 1;
+  handleNextPage(number) {
     this.setState({
-      currentPage: nextPageNumber
+      currentPage: number
     });
+  }
+  calculatePageNumbers(countriesPerPage, allCountriesLength) {
+    let pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(allCountriesLength / countriesPerPage); i++) {
+      pageNumbers.push(i);
+    }
+    return pageNumbers;
   }
 
   render() {
     let { currentPage, countriesPerPage } = this.state;
     let allCountries = this.props.countries;
+
+    let pageNumbers = this.calculatePageNumbers(countriesPerPage, allCountries.length);
 
     // Logic for displaying current countries
     let indexOfLastCountry = currentPage * countriesPerPage;
@@ -47,6 +55,7 @@ class Countries extends Component {
         <CountryItem key={index} country={country} />
       );
     });
+
     return (
       <div className="Countries">
         <h1>{this.props.title}</h1>
@@ -62,20 +71,14 @@ class Countries extends Component {
               {renderCountries}
             </tbody>
           </table>
-          <Pager>
-            <Pager.Item previous href="#" onClick={this.handlePreviousPage}>
-              &larr; Previous Page
-            </Pager.Item>
-            <Pager.Item next href="#" onClick={this.handleNextPage}>
-              Next Page &rarr;
-            </Pager.Item>
 
-            <CountriesPageNumbers
-              allCountries={allCountries}
-              countriesPerPage={countriesPerPage}
-              currentPage={currentPage}
-              onClick={this.handlePageNumberClick} />
-          </Pager>
+          <CountriesPager
+            pageNumbers={pageNumbers}
+            currentPage={currentPage}
+            lastPageNumber={pageNumbers.length}
+            onClick={this.handlePageNumberClick}
+            onNextPage={this.handlePageNumberClick}
+            onPreviousPage={this.handlePageNumberClick} />
       </div>
     );
   }
