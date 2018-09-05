@@ -14,6 +14,7 @@ class App extends Component {
     }
   }
 
+  /* Get data with API calls */
   getCountries() {
     $.ajax({
       url: 'https://restcountries.eu/rest/v2/all',
@@ -40,6 +41,7 @@ class App extends Component {
       }
     });
   }
+  /* Handlers for navigation */
   handleNavClick(selection) {
     let page;
     if(selection === "eu") {
@@ -64,6 +66,7 @@ class App extends Component {
       this.setState({page:this.showAllCountries()});
     }
   }
+  /* Helper functions */
   showAllCountries(){
     return <Countries title="All countries" countries={this.state.countries} />;
   }
@@ -71,11 +74,12 @@ class App extends Component {
     return <Countries title="EU countries" countries={this.state.countriesEU} />;
   }
 
+  /* Get data on launch */
   componentWillMount() {
     this.getCountries();
     this.getCountriesEU();
   }
-
+  
   render() {
     let page = this.state.page;
     if(!page) {

@@ -12,3 +12,6 @@ body {
 #page-numbers > li:hover {
   color: #23527c;
 }
+.countryRow:hover, .navbar-brand {
+  cursor: pointer;
+}

@@ -5,7 +5,6 @@ class CountryItemModal extends Component {
   constructor(props, context) {
     super(props, context);
 
-    this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
 
     this.state = {
@@ -13,14 +12,10 @@ class CountryItemModal extends Component {
     };
   }
 
+  /* Handler for closing modal */
   handleClose() {
-    this.setState({ show: false });
+    // Foward onHide to CountryItem with props
     this.props.onHide();
-    console.log("hide");
-  }
-
-  handleShow() {
-    this.setState({ show: true });
   }
 
   render() {

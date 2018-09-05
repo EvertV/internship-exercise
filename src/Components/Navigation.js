@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Nav, Navbar, NavItem, FormControl} from 'react-bootstrap';
+import {Nav, Navbar, NavItem, FormControl, FormGroup} from 'react-bootstrap';
 
 class Navigation extends Component {
   constructor() {
@@ -9,12 +9,14 @@ class Navigation extends Component {
         searchValue: ''
     };
   }
+  /* Handlers, mostly forwarding to app.js */
   handleClick(selection) {
     this.props.onNavClick(selection);
   }
   handleChange(e) {
     let searchValue = e.target.value;
     this.setState({searchValue:searchValue})
+    // Foward onNavSearch to App.js with props
     this.props.onNavSearch(searchValue);
   }
   render() {
@@ -22,26 +24,27 @@ class Navigation extends Component {
       <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="#" onClick={this.handleClick.bind(this, "all")}>Internship exercise</a>
+            <span onClick={this.handleClick.bind(this, "all")}>Internship exercise</span>
           </Navbar.Brand>
         </Navbar.Header>
         <Nav>
-          <NavItem onClick={this.handleClick.bind(this, "all")} href="#">
+          <NavItem onClick={this.handleClick.bind(this, "all")}>
             All Countries
           </NavItem>
-          <NavItem onClick={this.handleClick.bind(this, "eu")} href="#">
+          <NavItem onClick={this.handleClick.bind(this, "eu")}>
             EU Countries
           </NavItem>
-          <NavItem>
-            <FormControl
-              type="text"
-              value={this.state.searchValue}
-              placeholder="Search country"
-              onChange={this.handleChange.bind(this)}
-            />
-          </NavItem >
         </Nav>
-        </Navbar>
+        <Navbar.Form pullLeft>
+          <FormGroup>
+            <FormControl
+            type="text"
+            value={this.state.searchValue}
+            placeholder="Search"
+            onChange={this.handleChange.bind(this)} />
+          </FormGroup>
+        </Navbar.Form>
+      </Navbar>
     );
   }
 }

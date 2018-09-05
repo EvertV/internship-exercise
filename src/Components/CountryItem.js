@@ -9,6 +9,7 @@ class CountryItem extends Component {
     };
     this.handleClick = this.handleClick.bind(this);
   }
+  /* Handlers for modal*/
   handleClick() {
     if(this.state.modalOpened === false) {
       this.setState({modalOpened: true});
@@ -16,11 +17,11 @@ class CountryItem extends Component {
   }
   handleClose() {
     this.setState({modalOpened: false});
-
   }
+
   render() {
     return (
-        <tr onClick={this.handleClick}>
+        <tr className="countryRow" onClick={this.handleClick}>
           <td>
             {this.props.country.name}
           </td>
@@ -29,9 +30,8 @@ class CountryItem extends Component {
           </td>
           <td>
             {this.props.country.alpha2Code}
-
-            <CountryItemModal show={this.state.modalOpened} onHide={this.handleClose.bind(this)} country={this.props.country}/>
           </td>
+          <CountryItemModal show={this.state.modalOpened} onHide={this.handleClose.bind(this)} country={this.props.country}/>
         </tr>
     );
   }
