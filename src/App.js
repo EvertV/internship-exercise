@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
 import Countries from './Components/Countries';
+import Navigation from './Components/Navigation';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
       countries: [],
-      countriesEU: []
+      countriesEU: [],
+      page: ''
     }
   }
 
@@ -37,16 +39,30 @@ class App extends Component {
       }
     });
   }
+  handleNavClick(selection) {
+    let page;
+    if(selection === "eu") {
+      page = <Countries title="EU Countries" countries={this.state.countriesEU} />;
+    } else {
+      page = <Countries title="All Countries" countries={this.state.countries} />;
+    }
+    this.setState({page:page});
+  }
+
   componentWillMount() {
     this.getCountries();
     this.getCountriesEU();
   }
 
   render() {
+    let page = this.state.page;
+    if(!page) {
+      page = <Countries title="All Countries" countries={this.state.countries} />;
+    }
     return (
       <div className="container">
-        <Countries title="All Countries" countries={this.state.countries}/>
-        <Countries title="EU Countries" countries={this.state.countriesEU}/>
+        <Navigation onNavClick={this.handleNavClick.bind(this)} />
+        {page}
       </div>
     );
   }
