@@ -43,7 +43,7 @@ class App extends Component {
   handleNavClick(selection) {
     let page;
     if(selection === "eu") {
-      page = <Countries title="EU countries" countries={this.state.countriesEU} />;
+      page = this.showEUCountries();
     } else {
       page = this.showAllCountries();
     }
@@ -51,24 +51,12 @@ class App extends Component {
   }
   handleNavSearch(keyword) {
     if(!(keyword === null || keyword === '')) {
-      // $.ajax({
-      //   url: 'https://restcountries.eu/rest/v2/name/' + keyword,
-      //   dataType: 'json',
-      //   cache: false,
-      //   success: function(data) {
-      //     this.setState({countriesName:data});
-      //   }.bind(this),
-      //   error: function(xhr, status, err) {
-      //     // console.log(err);
-      //     this.setState({page:"Couldn't find \"" + keyword + "\""});
-      //   }.bind(this)
-      // });
-
-      // Use data that's already in memory to show subset of array --> faster than API call
+      // Use data that's already in memory to show subset of array
+      // --> faster than API call ('https://restcountries.eu/rest/v2/name/' + keyword)
       keyword = keyword.toLowerCase();
       let allCountries = this.state.countries;
       let countriesName = allCountries.filter(country => country.name.toLowerCase().includes(keyword));
-      let page = <Countries title="Search..." countries={countriesName} />;
+      let page = <Countries title="Searching all countries..." countries={countriesName} />;
       this.setState({page:page});
       this.setState({countriesName:countriesName});
     } else {
@@ -78,6 +66,9 @@ class App extends Component {
   }
   showAllCountries(){
     return <Countries title="All countries" countries={this.state.countries} />;
+  }
+  showEUCountries(){
+    return <Countries title="EU countries" countries={this.state.countriesEU} />;
   }
 
   componentWillMount() {

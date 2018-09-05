@@ -22,7 +22,7 @@ class Navigation extends Component {
       <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="#home">Internship exercise</a>
+            <a href="#" onClick={this.handleClick.bind(this, "all")}>Internship exercise</a>
           </Navbar.Brand>
         </Navbar.Header>
         <Nav>

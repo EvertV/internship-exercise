@@ -15,6 +15,8 @@ class CountryItemModal extends Component {
 
   handleClose() {
     this.setState({ show: false });
+    this.props.onHide();
+    console.log("hide");
   }
 
   handleShow() {

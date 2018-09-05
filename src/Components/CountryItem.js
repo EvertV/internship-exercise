@@ -10,11 +10,13 @@ class CountryItem extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
   handleClick() {
-    if(this.state.modalOpened === true) {
-      this.setState({modalOpened: false}); // Not the best solution --> TO-DO: make this work better/cleaner
-    } else {
+    if(this.state.modalOpened === false) {
       this.setState({modalOpened: true});
     }
+  }
+  handleClose() {
+    this.setState({modalOpened: false});
+
   }
   render() {
     return (
@@ -28,7 +30,7 @@ class CountryItem extends Component {
           <td>
             {this.props.country.alpha2Code}
 
-            <CountryItemModal show={this.state.modalOpened} country={this.props.country}/>
+            <CountryItemModal show={this.state.modalOpened} onHide={this.handleClose.bind(this)} country={this.props.country}/>
           </td>
         </tr>
     );
