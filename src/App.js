@@ -58,8 +58,7 @@ class App extends Component {
       keyword = keyword.toLowerCase();
       let allCountries = this.state.countries;
       let countriesName = allCountries.filter(country => country.name.toLowerCase().includes(keyword));
-      let page = <Countries title="Searching all countries..." countries={countriesName} />;
-      this.setState({page:page});
+      this.setState({page:this.showCountriesByName(countriesName)});
       this.setState({countriesName:countriesName});
     } else {
       // show default page if keyword is empty
@@ -68,18 +67,20 @@ class App extends Component {
   }
   /* Helper functions */
   showAllCountries(){
-    return <Countries title="All countries" countries={this.state.countries} />;
+    return <Countries title="All countries" countries={this.state.countries}/>;
   }
   showEUCountries(){
-    return <Countries title="EU countries" countries={this.state.countriesEU} />;
+    return <Countries title="EU countries" countries={this.state.countriesEU}/>;
   }
-
+  showCountriesByName(countriesName){
+    return <Countries title="Searching all countries..." countries={countriesName} />;
+  }
   /* Get data on launch */
   componentWillMount() {
     this.getCountries();
     this.getCountriesEU();
   }
-  
+
   render() {
     let page = this.state.page;
     if(!page) {

@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import CountryItem from './CountryItem';
 import CountriesPager from './CountriesPager';
-import { Pager} from 'react-bootstrap';
 
 class Countries extends Component {
   constructor() {
     super();
     this.state = {
       currentPage: 1,
-      countriesPerPage: 15,
-      lastPageNumber: 1
+      countriesPerPage: 15
     }
     this.handlePageNumberClick = this.handlePageNumberClick.bind(this);
     this.handlePreviousPage = this.handlePreviousPage.bind(this);
@@ -40,11 +38,18 @@ class Countries extends Component {
     return pageNumbers;
   }
 
+  componentWillReceiveProps(nextProps) {
+    // Reset page when new "page"/countries are shown
+    if (nextProps.countries !== this.state.countries) {
+      this.setState({ currentPage: 1 });
+    }
+  }
+
   render() {
     let { currentPage, countriesPerPage } = this.state;
     let allCountries = this.props.countries;
-
     let pageNumbers = this.calculatePageNumbers(countriesPerPage, allCountries.length);
+    console.log(pageNumbers);
 
     // Logic for displaying current countries
     let indexOfLastCountry = currentPage * countriesPerPage;
@@ -75,7 +80,7 @@ class Countries extends Component {
           <CountriesPager
             pageNumbers={pageNumbers}
             currentPage={currentPage}
-            lastPageNumber={pageNumbers.length}
+            amountOfPages={pageNumbers.length}
             onClick={this.handlePageNumberClick}
             onNextPage={this.handlePageNumberClick}
             onPreviousPage={this.handlePageNumberClick} />

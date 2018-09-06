@@ -21,17 +21,17 @@ class CountriesPager extends Component {
       this.setState({
         currentPage: previousPageNumber
       });
-      // Foward currentPage to Countries.js with props
+      // Foward previousPageNumber to Countries.js with props
       this.props.onNextPage(previousPageNumber);
     }
   }
   handleNextPage() {
     var nextPageNumber = Number(this.props.currentPage) + 1;
-    if(!(nextPageNumber > this.props.lastPageNumber)) {
+    if(!(nextPageNumber > this.props.amountOfPages)) {
       this.setState({
         currentPage: nextPageNumber
       });
-      // Foward currentPage to Countries.js with props
+      // Foward nextPageNumber to Countries.js with props
       this.props.onPreviousPage(nextPageNumber);
     }
   }
@@ -49,6 +49,7 @@ class CountriesPager extends Component {
 
   render() {
     let currentPage = this.props.currentPage;
+    let amountOfPages = this.props.amountOfPages;
     let renderPageNumbers = this.renderPageNumbers(this.props.pageNumbers);
 
     return (
@@ -62,7 +63,7 @@ class CountriesPager extends Component {
         <ul id="page-numbers">
           {renderPageNumbers}
         </ul>
-        <p>Current page: {currentPage}</p>
+        <p>Page {currentPage} of {amountOfPages}</p>
       </Pager>
     );
   }
