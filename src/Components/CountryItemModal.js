@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { Modal, Button} from 'react-bootstrap';
+import { Modal, Button, Table} from 'react-bootstrap';
 
 class CountryItemModal extends Component {
   constructor(props, context) {
     super(props, context);
 
-    this.handleClose = this.handleClose.bind(this);
-
     this.state = {
       show: false
     };
+
+    this.handleClose = this.handleClose.bind(this);
   }
 
   /* Handler for closing modal */
@@ -25,7 +25,7 @@ class CountryItemModal extends Component {
           <Modal.Title>{this.props.country.name}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <table className="table">
+          <Table responsive>
             <thead>
               <tr>
                 <th>Name</th>
@@ -44,7 +44,7 @@ class CountryItemModal extends Component {
               <td>{this.props.country.population}</td>
               </tr>
             </tbody>
-          </table>
+          </Table >
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.handleClose}>Close</Button>

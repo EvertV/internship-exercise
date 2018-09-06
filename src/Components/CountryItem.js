@@ -7,7 +7,6 @@ class CountryItem extends Component {
     this.state = {
         modalOpened: false
     };
-    this.handleClick = this.handleClick.bind(this);
   }
   /* Handlers for modal*/
   handleClick() {
@@ -21,7 +20,7 @@ class CountryItem extends Component {
 
   render() {
     return (
-        <tr className="countryRow" onClick={this.handleClick}>
+        <tr className="countryRow" onClick={this.handleClick.bind(this)}>
           <td>
             {this.props.country.name}
           </td>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import CountryItem from './CountryItem';
 import CountriesPager from './CountriesPager';
+import {Table} from 'react-bootstrap';
 
 class Countries extends Component {
   constructor() {
@@ -14,12 +15,12 @@ class Countries extends Component {
     this.handleNextPage = this.handleNextPage.bind(this);
   }
 
+  /* Handlers for pagination */
   handlePageNumberClick(number) {
     this.setState({
       currentPage: number
     });
   }
-  /* Handlers for pagination */
   handlePreviousPage(number) {
     this.setState({
       currentPage: number
@@ -30,16 +31,10 @@ class Countries extends Component {
       currentPage: number
     });
   }
-  calculatePageNumbers(countriesPerPage, allCountriesLength) {
-    let pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(allCountriesLength / countriesPerPage); i++) {
-      pageNumbers.push(i);
-    }
-    return pageNumbers;
-  }
 
+  /* Reset currentPage */
   componentWillReceiveProps(nextProps) {
-    // Reset page when new "page"/countries are shown
+    // Reset when new "page" (countries) are shown
     if (nextProps.countries !== this.state.countries) {
       this.setState({ currentPage: 1 });
     }
@@ -48,8 +43,6 @@ class Countries extends Component {
   render() {
     let { currentPage, countriesPerPage } = this.state;
     let allCountries = this.props.countries;
-    let pageNumbers = this.calculatePageNumbers(countriesPerPage, allCountries.length);
-    console.log(pageNumbers);
 
     // Logic for displaying current countries
     let indexOfLastCountry = currentPage * countriesPerPage;
@@ -64,7 +57,7 @@ class Countries extends Component {
     return (
       <div className="Countries">
         <h1>{this.props.title}</h1>
-          <table className="table table-hover">
+          <Table responsive hover>
             <thead>
               <tr>
                 <th>Name</th>
@@ -75,12 +68,12 @@ class Countries extends Component {
             <tbody>
               {renderCountries}
             </tbody>
-          </table>
+          </Table>
 
           <CountriesPager
-            pageNumbers={pageNumbers}
             currentPage={currentPage}
-            amountOfPages={pageNumbers.length}
+            countriesPerPage={countriesPerPage}
+            allCountriesLength={allCountries.length}
             onClick={this.handlePageNumberClick}
             onNextPage={this.handlePageNumberClick}
             onPreviousPage={this.handlePageNumberClick} />

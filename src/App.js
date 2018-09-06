@@ -41,31 +41,42 @@ class App extends Component {
       }
     });
   }
+
   /* Handlers for navigation */
   handleNavClick(selection) {
     let page;
-    if(selection === "eu") {
-      page = this.showEUCountries();
-    } else {
-      page = this.showAllCountries();
+    switch(selection) {
+      case "eu":
+        page = this.showEUCountries();
+        break;
+      case "all":
+        page = this.showAllCountries();
+        break;
+      default:
+        page = this.showAllCountries();
     }
+
     this.setState({page:page});
   }
   handleNavSearch(keyword) {
     if(!(keyword === null || keyword === '')) {
-      // Use data that's already in memory to show subset of array
-      // --> faster than API call ('https://restcountries.eu/rest/v2/name/' + keyword)
       keyword = keyword.toLowerCase();
+      // Use data that's already in memory to show subset of array
+      // --> faster than API call (which would be 'https://restcountries.eu/rest/v2/name/' + keyword)
       let allCountries = this.state.countries;
-      let countriesName = allCountries.filter(country => country.name.toLowerCase().includes(keyword));
-      this.setState({page:this.showCountriesByName(countriesName)});
-      this.setState({countriesName:countriesName});
+      let countriesByKeyword = allCountries.filter(country => country.name.toLowerCase().includes(keyword));
+
+      this.setState({
+        countriesName:countriesByKeyword,
+        page:this.showCountriesByName(countriesByKeyword)
+      });
     } else {
       // show default page if keyword is empty
       this.setState({page:this.showAllCountries()});
     }
   }
-  /* Helper functions */
+
+  /* Helper functions to display pages */
   showAllCountries(){
     return <Countries title="All countries" countries={this.state.countries}/>;
   }
@@ -75,7 +86,8 @@ class App extends Component {
   showCountriesByName(countriesName){
     return <Countries title="Searching all countries..." countries={countriesName} />;
   }
-  /* Get data on launch */
+
+  /* Get data on launch of app */
   componentWillMount() {
     this.getCountries();
     this.getCountriesEU();
@@ -84,7 +96,7 @@ class App extends Component {
   render() {
     let page = this.state.page;
     if(!page) {
-      page = this.showAllCountries();
+      page = this.showAllCountries(); // show all countries on launch
     }
     return (
       <div className="container">
